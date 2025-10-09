@@ -1,6 +1,6 @@
 <script setup>
-import RsSidebar from './components/rs-sidebar.vue';
 import ManageStore from './components/manage-store.vue';
+import RsSidebar from "@/shared/components/rs-sidebar.vue";
 </script>
 
 <template>
