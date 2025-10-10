@@ -1,0 +1,97 @@
+:root{
+  --bg:#f6f7f9;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --brand:#b91c1c;
+  --shadow:0 10px 30px rgba(16,24,40,.06);
+  --danger:#ef4444;
+}
+*{box-sizing:border-box}
+html,body,#app{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:230px 1fr;height:100%}
+.sidebar{background:#fff;border-right:1px solid var(--border)}
+.sidebar .brand{display:flex;align-items:center;justify-content:center;padding:18px}
+.sidebar .brand img{height:50px;object-fit:contain}
+.nav{display:flex;flex-direction:column;padding:8px}
+.nav a{display:flex;align-items:center;gap:10px;padding:.75rem;border-radius:8px;margin:.25rem .5rem;color:#111}
+.nav a.active,.nav a.logout{background:var(--brand);color:#fff}
+
+.header{height:64px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.search{flex:1;max-width:520px;display:flex;align-items:center;gap:10px;background:#f3f4f6;border:1px solid var(--border);padding:10px 12px;border-radius:8px;margin:0 16px 0 8px}
+.search input{border:0;outline:0;background:transparent;width:100%}
+
+/* Container Card */
+.container{padding:24px}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow)}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid var(--border)}
+.page-actions{display:flex;gap:10px}
+.btn{border:1px solid var(--border);background:#fff;border-radius:8px;padding:8px 12px;cursor:pointer}
+.btn.primary{background:#e11d48;border-color:#e11d48;color:#fff}
+.btn.icon{display:inline-flex;gap:6px;align-items:center}
+
+/* Suppliers grid */
+.suppliers-grid{display:grid;grid-template-columns:260px 1fr;gap:24px;padding:16px}
+.leftlist{border-right:1px solid var(--border);padding-right:16px}
+.leftlist h4{margin:0 0 12px 0}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);color:#111}
+.smallmuted{color:#9ca3af;font-size:12px}
+.table{width:100%;border-collapse:separate;border-spacing:0}
+.table th,.table td{padding:12px 14px;border-bottom:1px solid var(--border);text-align:left;background:#fff}
+.table th{color:#6b7280;font-weight:600}
+
+/* Overlay + Modal (New Supplier) */
+.overlay-red{
+  position:fixed; inset:0; z-index:50;
+  background:rgba(220, 38, 38, .10);
+  display:flex; align-items:flex-start; justify-content:center;
+  padding-top:56px;
+}
+.modal{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.modal.supplier{width:min(760px,92vw)}
+.modal-header{padding:18px 24px 6px 24px}
+.modal-header h3{margin:0;font-size:20px;font-weight:700}
+.modal-body{padding:8px 24px}
+
+/* Avatar drop (SIN borde extra) */
+.avatar-drop{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+
+/* Antes el anillo dibujaba el borde. Ahora solo fija el tamaño del contenedor. */
+.avatar-ring{
+  width:84px;
+  height:84px;
+  display:grid;
+  place-items:center;
+}
+
+/* El PNG del usuario ocupa el tamaño completo y NO se le fuerza borde/redondeo */
+.avatar-ring img{
+  width:84px;
+  height:84px;
+  object-fit:cover;
+}
+
+.avatar-legend{line-height:1.25}
+.avatar-legend .or{color:#9ca3af;font-size:11px;margin:.15rem 0}
+.avatar-legend .link{color:#e11d48;text-decoration:none;font-size:12px}
+
+/* Form */
+.form-rows{display:flex;flex-direction:column;gap:10px}
+.form-row{display:grid;grid-template-columns:170px 1fr;gap:12px;align-items:center}
+@media (max-width:560px){.form-row{grid-template-columns:1fr}}
+.lbl{color:#6b7280;font-weight:600}
+.ctrl .txt{width:100%;height:44px;border:1px solid var(--border);border-radius:8px;padding:10px 12px;outline:0;background:#fff}
+
+/* Type buttons inline */
+.type-inline{display:flex;gap:10px}
+.type-inline .btn{padding:10px 12px;border-radius:8px}
+.type-inline .btn.active{background:#f3f4f6}
+
+/* Modal footer */
+.modal-actions{display:flex;gap:12px;justify-content:flex-end;padding:12px 24px 20px 24px}
+
