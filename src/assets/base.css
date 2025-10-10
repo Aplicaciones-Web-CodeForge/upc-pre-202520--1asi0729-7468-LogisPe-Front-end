@@ -1,0 +1,38 @@
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --muted:#8a8f98; --text:#1f2937;
+  --border:#e5e7eb; --shadow:0 10px 30px rgba(16,24,40,.06);
+}
+*{box-sizing:border-box}
+html,body,#app{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+
+.btn{border:1px solid var(--border);background:#fff;border-radius:8px;padding:10px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:#e11d48;border-color:#e11d48;color:#fff}
+
+.layout{display:grid;grid-template-columns:230px 1fr;height:100%}
+.sidebar{width:230px;background:#fff;border-right:1px solid var(--border)}
+.sidebar .brand{display:flex;align-items:center;justify-content:center;padding:18px}
+.sidebar .brand img{height:48px;max-width:100%;object-fit:contain}
+.nav{display:flex;flex-direction:column;padding:8px}
+.nav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;margin:2px 8px;color:#111827}
+.nav a.active{background:#b91c1c;color:#fff}
+.nav a.logout{margin-top:auto;background:#b91c1c;color:#fff}
+
+.header{height:64px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.search{flex:1;max-width:520px;display:flex;align-items:center;gap:10px;background:#f3f4f6;border:1px solid var(--border);padding:10px 12px;border-radius:8px;margin:0 16px 0 8px}
+.search input{border:0;outline:0;background:transparent;width:100%}
+
+.container{padding:24px;width:100%;max-width:1200px;margin:0 auto;min-height:calc(100vh - 64px)}
+
+/* manage store cards */
+.ms-header{display:flex;align-items:center;justify-content:space-between;margin:6px 0 16px 0}
+.ms-title{margin:0;font-weight:700;color:#111827}
+.ms-add{background:#e11d48;border-color:#e11d48;color:#fff;padding:10px 14px;border-radius:8px}
+
+.ms-card{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:18px;margin-bottom:18px}
+.ms-inner{display:grid;grid-template-columns:280px 1fr 80px;gap:24px;align-items:center}
+.ms-branch{background:#eef2f6;border-radius:10px;padding:22px 16px;color:#111827;font-weight:700;display:flex;align-items:center;justify-content:center;min-height:76px}
+.ms-detail .name{font-weight:700;margin-bottom:6px}
+.ms-detail .line{color:#111827;line-height:1.35}
+.ms-edit{justify-self:end;border:1px solid var(--border);background:#fff;border-radius:8px;padding:8px 12px}
