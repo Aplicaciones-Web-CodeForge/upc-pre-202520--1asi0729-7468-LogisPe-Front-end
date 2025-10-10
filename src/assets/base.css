@@ -1,0 +1,145 @@
+:root{
+  --bg:#f6f7f9;
+  --card:#ffffff;
+  --muted:#8a8f98;
+  --text:#1f2937;
+  --brand:#2f9682;
+  --brand-dark:#0e3b33;
+  --danger:#ef4444;
+  --success:#22c55e;
+  --warning:#f59e0b;
+  --border:#e5e7eb;
+  --shadow:0 10px 30px rgba(16,24,40,.06);
+}
+*{box-sizing:border-box}
+html,body,#app{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif
+}
+a{color:inherit;text-decoration:none}
+
+/* Botones base */
+.btn{
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:8px;
+  padding:10px 14px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px
+}
+.btn.primary{background:#e11d48;border-color:#e11d48;color:#fff}
+
+/* Sidebar */
+.sidebar{width:230px;background:#fff;border-right:1px solid var(--border)}
+.sidebar .brand{display:flex;align-items:center;justify-content:center;padding:18px}
+.sidebar .brand img{height:48px;max-width:100%;object-fit:contain}
+.nav{display:flex;flex-direction:column;padding:8px}
+.nav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;margin:2px 8px;color:#111827}
+.nav a.active{background:#b91c1c;color:#fff}
+.nav a.logout{margin-top:auto;background:#b91c1c;color:#fff}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:230px 1fr;height:100%}
+.header{
+  height:64px;
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px
+}
+.search{
+  flex:1;
+  max-width:520px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#f3f4f6;
+  border:1px solid var(--border);
+  padding:10px 12px;
+  border-radius:8px;
+  margin:0 16px 0 8px
+}
+.search input{border:0;outline:0;background:transparent;width:100%}
+
+/* Container general: igual ancho que la cabecera */
+.container{
+  padding:24px;
+  width:100%;            /* ocupa exactamente el ancho del header */
+  max-width:none;        /* sin límite fijo para que no sobrepase por suma de gaps */
+  margin:0 auto;
+  min-height:calc(100vh - 64px);
+  box-sizing:border-box;
+}
+
+/* Card (si lo usas en otras pantallas) */
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  box-shadow:var(--shadow)
+}
+
+/* ===== ORDERS: layout que nunca se pasa ===== */
+.orders-frame{
+  display:grid;
+  /* laterales fijos, centro flexible; no sobrepasa gracias a 1fr y max-width:100% implícito */
+  grid-template-columns: 260px minmax(0, 1fr) 420px;
+  column-gap:24px;        /* gap moderado para que entre siempre */
+  width:100%;             /* hereda del container y se ajusta */
+  max-width:100%;         /* evita rebasar el ancho disponible */
+  margin:0 auto;
+}
+.col-left{ padding-right:16px; border-right:1px solid var(--border) }
+.col-center{ padding:0 16px; min-width:0 } /* min-width:0 permite contraer contenido sin overflow */
+.col-right{ padding-left:16px; border-left:1px solid var(--border) }
+
+.title{ margin:0 0 18px 0; font-weight:700; color:#111827 }
+.muted{ color:#6b7280 }
+.small{ font-size:12px }
+
+/* left list */
+.left-head{ font-weight:600; margin-bottom:6px }
+.list{ list-style:none; margin:0; padding:0 }
+.list li{ padding:12px 0; border-bottom:1px solid var(--border); color:#111827 }
+.list li:first-child{ color:#2563eb; font-weight:600 }
+.pager-left{ margin-top:16px }
+
+/* form center */
+.form2{ display:grid; grid-template-columns:160px 1fr; column-gap:16px; row-gap:14px }
+.form2 .lbl{ align-self:center; color:#6b7280; font-weight:600 }
+.input{
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px 12px;
+  height:38px;
+  outline:0;
+  background:#fff;
+  width:100%;           /* asegura ajuste dentro del 1fr */
+  min-width:0;
+}
+.check-row{ grid-column:1 / -1; display:flex; align-items:center; gap:10px; color:#6b7280 }
+.actions{ grid-column:1 / -1; display:flex; gap:12px; flex-wrap:wrap }
+
+/* right table */
+.right-actions{ display:flex; justify-content:flex-end; gap:10px; margin-bottom:10px; flex-wrap:wrap }
+.table-head{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  color:#6b7280;
+  font-weight:600;
+  padding:8px 0;
+  border-bottom:1px solid var(--border)
+}
+.tr{ display:grid; grid-template-columns:1fr 1fr; padding:12px 0; border-bottom:1px solid var(--border) }
+.status[data-status="Confirmed"]{ color:#22c55e; font-weight:600 }
+.status[data-status="Delayed"]{ color:#ef4444; font-weight:600 }
+.status[data-status="Returned"]{ color:#b45309; font-weight:600 }
+.status[data-status="Out for delivery"]{ color:#6b7280; font-weight:600 }
+.pager-right{ margin-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap }
