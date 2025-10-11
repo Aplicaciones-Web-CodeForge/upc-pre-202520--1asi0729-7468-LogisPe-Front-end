@@ -1,0 +1,39 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "ana@example.com",
+      "password": "123456",
+      "fullName": "Ana Torres",
+      "phone": "999111222"
+    },
+    {
+      "id": 2,
+      "email": "bruno@example.com",
+      "password": "123456",
+      "fullName": "Bruno Díaz",
+      "phone": "999222333"
+    },
+    {
+      "id": 3,
+      "email": "carla@example.com",
+      "password": "123456",
+      "fullName": "Carla Gómez",
+      "phone": "999333444"
+    },
+    {
+      "id": 4,
+      "email": "daniel@example.com",
+      "password": "123456",
+      "fullName": "Daniel Huamán",
+      "phone": "999444555"
+    },
+    {
+      "id": 5,
+      "email": "elena@example.com",
+      "password": "123456",
+      "fullName": "Elena Rojas",
+      "phone": "999555666"
+    }
+  ]
+}
