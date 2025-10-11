@@ -2,10 +2,9 @@
 
 /* Reset del layout del template para página normal */
 #app {
-  width: 100%;
-  max-width: none;
-  margin: 0;
-  padding: 0;
+  max-width: none;   /* libera el ancho */
+  margin: 0;         /* sin centrado */
+  padding: 0;        /* sin padding extra */
   font-weight: normal;
 }
 
@@ -21,4 +20,14 @@ body {
   display: block;
 }
 
-a { text-decoration: none; color: inherit; }
+@media (min-width: 1024px) {
+  body {
+    display: block;        /* nada de centrar */
+    place-items: initial;
+  }
+
+  #app {
+    display: block;        /* no forces grid aquí */
+    padding: 0;            /* cero padding global */
+  }
+}
