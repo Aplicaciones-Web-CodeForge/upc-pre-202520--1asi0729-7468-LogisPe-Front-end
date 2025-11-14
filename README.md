@@ -36,3 +36,22 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Fake API (JSON Server)
+
+Este proyecto usa `json-server` para una API falsa.
+
+- Inicia la API: `npm run api`
+- URL base: `http://localhost:3001/`
+- Endpoints: `/users`, `/stocks`, `/orders`, `/suppliers`, `/stores`
+
+Para probar el login puedes usar:
+
+- Email: `ana@example.com` — Password: `123456`
+
+## Desarrollo
+
+1. En una terminal: `npm run api` (API fake)
+2. En otra terminal: `npm run dev` (Vite)
+
+El router protege `/home` y sus rutas hijas si no hay sesión. Tras login, verás el dashboard y podrás navegar a Stock, Orders, Suppliers y Stores (Manage Store) con datos de la fake API.

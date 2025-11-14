@@ -1,55 +1,125 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "ana@example.com",
       "password": "123456",
       "fullName": "Ana Torres",
       "phone": "999111222"
     },
     {
-      "id": 2,
+      "id": "2",
       "email": "bruno@example.com",
       "password": "123456",
       "fullName": "Bruno Díaz",
       "phone": "999222333"
     },
     {
-      "id": 3,
+      "id": "3",
       "email": "carla@example.com",
       "password": "123456",
       "fullName": "Carla Gómez",
       "phone": "999333444"
     },
     {
-      "id": 4,
+      "id": "4",
       "email": "daniel@example.com",
       "password": "123456",
       "fullName": "Daniel Huamán",
       "phone": "999444555"
     },
     {
-      "id": 5,
+      "id": "5",
       "email": "elena@example.com",
       "password": "123456",
       "fullName": "Elena Rojas",
       "phone": "999555666"
     }
-  ]
-  ,
+  ],
   "stocks": [
-    { "id": 1, "name": "Tomatoes", "quantity": 120, "unit": "kg" },
-    { "id": 2, "name": "Cheese",   "quantity": 45,  "unit": "kg" },
-    { "id": 3, "name": "Olive Oil", "quantity": 30,  "unit": "L" }
+    {
+      "id": "1",
+      "name": "Tomatoes",
+      "quantity": 120,
+      "unit": "kg"
+    },
+    {
+      "id": "2",
+      "name": "Cheese",
+      "quantity": 45,
+      "unit": "kg"
+    },
+    {
+      "id": "3",
+      "name": "Olive Oil",
+      "quantity": 30,
+      "unit": "L"
+    }
   ],
   "orders": [
-    { "id": 101, "customer": "Rest. Sol",   "status": "Processing", "total": 560.50 },
-    { "id": 102, "customer": "Cafe Luna",   "status": "Shipped",    "total": 320.00 },
-    { "id": 103, "customer": "Bistro Mar",  "status": "Delivered",  "total": 784.10 }
+    {
+      "id": "101",
+      "customer": "Rest. Sol",
+      "status": "Processing",
+      "total": 560.5
+    },
+    {
+      "id": "102",
+      "customer": "Cafe Luna",
+      "status": "Shipped",
+      "total": 320
+    },
+    {
+      "id": "103",
+      "customer": "Bistro Mar",
+      "status": "Delivered",
+      "total": 784.1
+    }
   ],
   "suppliers": [
-    { "id": 201, "name": "AgroPerú",  "contact": "Luis Pérez",  "phone": "987654321" },
-    { "id": 202, "name": "Lácteos SA", "contact": "Marta Díaz",  "phone": "987123456" },
-    { "id": 203, "name": "DelCampo",  "contact": "José Rojas",   "phone": "986111222" }
+    {
+      "id": "201",
+      "name": "AgroPerú",
+      "contact": "Luis Pérez",
+      "phone": "987654321"
+    },
+    {
+      "id": "202",
+      "name": "Lácteos SA",
+      "contact": "Marta Díaz",
+      "phone": "987123456"
+    },
+    {
+      "id": "203",
+      "name": "DelCampo",
+      "contact": "José Rojas",
+      "phone": "986111222"
+    }
+  ],
+  "stores": [
+    {
+      "id": "1",
+      "branch": "Singanallur Branch",
+      "store": "Lisy Store",
+      "address1": "1A/ Krishnarajapuram, 3 rd street sulur",
+      "cityzip": "Coimbatore - 6313403",
+      "phone": "044 - 653578"
+    },
+    {
+      "id": "2",
+      "branch": "Slur Branch",
+      "store": "Lisy Store",
+      "address1": "54 Ramani colony, 3 rd street sulur",
+      "cityzip": "Coimbatore - 63133452",
+      "phone": "044 - 653763"
+    },
+    {
+      "id": "3",
+      "branch": "Gaandipuram Branch",
+      "store": "Lisy Store",
+      "address1": "32/ Venkatasamy layout, 3 rd street sulur",
+      "cityzip": "Coimbatore - 6313403",
+      "phone": "044 - 653578"
+    }
   ]
 }

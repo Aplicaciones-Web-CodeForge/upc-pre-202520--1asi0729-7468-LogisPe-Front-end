@@ -1,0 +1,43 @@
+/* LogisPe Theme: variables y estilos base */
+:root{
+  --brand-dark:#1f2a37;
+  --brand-red:#c62828;
+  --brand-red-700:#b71c1c;
+  --brand-green:#7adf7a;
+  --surface:#ffffff;
+  --surface-2:#f6f7fb;
+  --border:#e5e7eb;
+  --text:#111827;
+  --muted:#374151;
+  --shadow:0 1px 2px rgba(0,0,0,.06);
+}
+
+/* Tipografía y base */
+html,body{font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color:var(--text); background:var(--surface-2)}
+
+/* Cards y contenedores */
+.card{background:var(--surface); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow);}
+
+/* Botones */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.6rem .9rem; border-radius:.6rem; border:1px solid var(--border); background:var(--surface); color:var(--muted); font-weight:600; cursor:pointer;}
+.btn:disabled{opacity:.7; cursor:not-allowed}
+.btn-primary{background:var(--brand-red); color:#fff; border-color:var(--brand-red)}
+.btn-primary:hover{background:#a52222; border-color:#a52222}
+.btn-outline{background:#fff; color:var(--text); border-color:var(--text)}
+.btn-outline:hover{background:var(--text); color:#fff}
+.btn-danger{background:#fff; color:var(--brand-red); border-color:var(--brand-red)}
+.btn-danger:hover{background:var(--brand-red); color:#fff}
+
+/* Campos */
+.field{display:grid; gap:6px}
+input, .input{padding:.6rem .7rem; border:1px solid var(--border); border-radius:.5rem; background:#fff}
+
+/* Tablas */
+.table{width:100%; border-collapse:collapse}
+.table thead th{background:#fafafa; border-bottom:1px solid var(--border); text-align:left; padding:.75rem}
+.table tbody td{border-bottom:1px solid var(--border); padding:.7rem}
+.table tbody tr:hover{background:#fcfcfc}
+
+/* Utilidades */
+.wrap{padding:24px 20px 28px}
+.title{font:600 26px/1.2 Inter,system-ui,sans-serif; margin:4px 0 16px}
