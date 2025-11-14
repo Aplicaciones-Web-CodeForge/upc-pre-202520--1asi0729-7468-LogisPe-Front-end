@@ -1,18 +1,18 @@
 <template>
   <section class="card">
     <header class="hdr">
-      <h2>Best selling category</h2>
-      <button class="seeall" type="button">See All</button>
+      <h2>{{ t('home.best.title') }}</h2>
+      <button class="seeall" type="button">{{ t('home.best.see_all') }}</button>
     </header>
 
     <table>
       <thead>
-      <tr><th>Category</th><th>Turn Over</th><th>Increase By</th></tr>
+      <tr><th>{{ t('home.best.col.category') }}</th><th>{{ t('home.best.col.turnover') }}</th><th>{{ t('home.best.col.increase') }}</th></tr>
       </thead>
       <tbody>
       <tr v-for="row in rows" :key="row.name">
         <td>{{ row.name }}</td>
-        <td>₹{{ row.turnover.toLocaleString('en-IN') }}</td>
+        <td>{{ fmtMoney(row.turnover) }}</td>
         <td><span class="tag"> {{ row.increase }}% </span></td>
       </tr>
       </tbody>
@@ -21,6 +21,7 @@
 </template>
 
 <script setup>
+import { fmtMoney, t } from '@/utils/i18n'
 defineProps({
   rows: { type: Array, required: true } // [{name, turnover:number, increase:number}]
 })

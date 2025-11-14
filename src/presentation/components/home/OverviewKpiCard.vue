@@ -1,20 +1,20 @@
 <template>
   <article class="card">
-    <div class="value" :class="{ accent }">{{ prefix }}{{ formatted }}</div>
+    <div class="value" :class="{ accent }">{{ formatted }}</div>
     <div class="label">{{ label }}</div>
   </article>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import { fmtMoney } from '@/utils/i18n'
 
 const props = defineProps({
   value:   { type: Number, required: true },
   label:   { type: String,  required: true },
-  prefix:  { type: String,  default: '₹' },
   accent:  { type: Boolean, default: false }
 })
-const formatted = computed(() => Number(props.value).toLocaleString('en-IN'))
+const formatted = computed(() => fmtMoney(props.value))
 </script>
 
 <style scoped>

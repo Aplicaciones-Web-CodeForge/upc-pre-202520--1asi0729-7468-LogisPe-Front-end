@@ -20,6 +20,7 @@ const router = createRouter({
       component: MainLayout,
       children: [
         { path: '', name: 'home', component: HomeView },
+        { path: 'profile', name: 'profile', component: () => import('../presentation/views/ProfileView.vue') },
         { path: 'recipes', name: 'recipes', component: ManageStore },
         { path: 'stock', name: 'stock', component: StockView },
         { path: 'orders', name: 'orders', component: OrdersView },

@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-wrap" role="img" aria-label="Profit and Revenue line chart with two y-axes">
+  <div class="chart-wrap" role="img" :aria-label="t('chart.aria')">
     <canvas ref="canvas"></canvas>
   </div>
 </template>
@@ -7,6 +7,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import Chart from 'chart.js/auto'
+import { t, fmtMoney, isEN } from '@/utils/i18n'
 
 const props = defineProps({
   labels:   { type: Array, required: true },
@@ -18,7 +19,7 @@ const props = defineProps({
 const canvas = ref(null)
 let chart
 
-const fmt = (v) => `₹${Number(v).toLocaleString('en-IN')}`
+const fmt = (v) => fmtMoney(v)
 
 function makeConfig() {
   return {
@@ -26,8 +27,8 @@ function makeConfig() {
     data: {
       labels: props.labels,
       datasets: [
-        { label: 'Revenue', data: props.revenue, yAxisID: 'y',  borderWidth: 2, tension: 0.4, pointRadius: 3 },
-        { label: 'Profit',  data: props.profit,  yAxisID: 'y1', borderWidth: 2, borderDash: [4,3], tension: 0.4, pointRadius: 3 }
+        { label: t('chart.revenue'), data: props.revenue, yAxisID: 'y',  borderWidth: 2, tension: 0.4, pointRadius: 3 },
+        { label: t('chart.profit'),  data: props.profit,  yAxisID: 'y1', borderWidth: 2, borderDash: [4,3], tension: 0.4, pointRadius: 3 }
       ]
     },
     options: {
@@ -61,6 +62,14 @@ watch(() => [props.labels, props.revenue, props.profit], () => {
   chart.data.datasets[1].data = props.profit
   chart.update()
 }, { deep: true })
+
+// Actualiza etiquetas del gráfico cuando cambia el idioma
+watch(isEN, () => {
+  if (!chart) return
+  chart.data.datasets[0].label = t('chart.revenue')
+  chart.data.datasets[1].label = t('chart.profit')
+  chart.update()
+})
 </script>
 
 <style scoped>

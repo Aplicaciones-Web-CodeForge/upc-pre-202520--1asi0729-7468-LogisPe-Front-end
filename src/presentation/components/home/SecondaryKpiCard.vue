@@ -1,19 +1,19 @@
 <template>
   <article class="card">
-    <div class="value">{{ prefix }}{{ formatted }}</div>
+    <div class="value">{{ formatted }}</div>
     <div class="hint">{{ hint }}</div>
   </article>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import { fmtMoney } from '@/utils/i18n'
 
 const props = defineProps({
   value:  { type: Number, required: true },
-  hint:   { type: String,  required: true },
-  prefix: { type: String,  default: '₹' }
+  hint:   { type: String,  required: true }
 })
-const formatted = computed(() => Number(props.value).toLocaleString('en-IN'))
+const formatted = computed(() => fmtMoney(props.value))
 </script>
 
 <style scoped>

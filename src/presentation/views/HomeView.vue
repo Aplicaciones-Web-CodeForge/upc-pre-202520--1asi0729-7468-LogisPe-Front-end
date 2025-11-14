@@ -1,31 +1,31 @@
 <template>
   <main class="wrap">
     <header class="title">
-      WELCOME BACK <span class="user">{{ userName }}</span>
+      {{ t('home.welcome') }}, <span class="user">{{ userName }}</span>
     </header>
 
     <!-- Overview (3 KPIs) -->
     <section class="grid3">
-      <OverviewKpiCard :value="21190" label="Total Profit" />
-      <OverviewKpiCard :value="18300" label="Revenue" :accent="true" />
-      <OverviewKpiCard :value="17432" label="Sales" />
+      <OverviewKpiCard :value="21190" :label="t('home.kpi.total_profit')" />
+      <OverviewKpiCard :value="18300" :label="t('home.kpi.revenue')" :accent="true" />
+      <OverviewKpiCard :value="17432" :label="t('home.kpi.sales')" />
     </section>
 
     <!-- Secondary (4 KPIs) -->
     <section class="grid4">
-      <SecondaryKpiCard :value="117432" hint="Net purchase value" />
-      <SecondaryKpiCard :value="80432"  hint="Net sales value" />
-      <SecondaryKpiCard :value="30432"  hint="MoM Profit" />
-      <SecondaryKpiCard :value="110432" hint="YoY Profit" />
+      <SecondaryKpiCard :value="117432" :hint="t('home.kpi.net_purchases')" />
+      <SecondaryKpiCard :value="80432"  :hint="t('home.kpi.net_sales')" />
+      <SecondaryKpiCard :value="30432"  :hint="t('home.kpi.profit_mom')" />
+      <SecondaryKpiCard :value="110432" :hint="t('home.kpi.profit_yoy')" />
     </section>
 
     <!-- Analytics -->
     <section class="analytics">
       <article class="chart card">
         <div class="hdr">
-          <h2>Profit &amp; Revenue</h2>
-          <button class="ghost" type="button" aria-label="Weekly">
-            <i class="pi pi-calendar" style="margin-right:6px"></i> Weekly
+          <h2>{{ t('home.chart.title') }}</h2>
+          <button class="ghost" type="button" :aria-label="t('home.chart.button')">
+            <i class="pi pi-calendar" style="margin-right:6px"></i> {{ t('home.chart.button') }}
           </button>
         </div>
         <MultiAxisChart :labels="labels" :revenue="revenue" :profit="profit" :height="340" />
@@ -37,22 +37,33 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { t, monthsShort } from '@/utils/i18n'
 import MultiAxisChart from '../components/charts/MultiAxisChart.vue'
 import OverviewKpiCard from '../components/home/OverviewKpiCard.vue'
 import SecondaryKpiCard from '../components/home/SecondaryKpiCard.vue'
 import BestSellingCategoryTable from '../components/home/BestSellingCategoryTable.vue'
 
-const userName = '{User}' // cámbialo por el nombre real si lo tienes
+const userName = computed(() => {
+  try {
+    const raw = localStorage.getItem('user')
+    if (!raw) return '{User}'
+    const u = JSON.parse(raw)
+    return u.fullName || u.email || '{User}'
+  } catch {
+    return '{User}'
+  }
+})
 
 // Datos mock (puedes reemplazarlos por tu API luego)
-const labels   = ['Sep','Oct','Nov','Dec','Jan','Feb','Mar']
+const labels   = monthsShort()
 const revenue  = [22000, 34000, 32000, 56000, 61000, 47000, 50000]
 const profit   = [30000, 28000, 24000, 36000, 45000, 33000, 41000]
 
 const categories = [
-  { name: 'Vegetable',   turnover: 26000, increase: 3.2 },
-  { name: 'Instant Food',turnover: 22000, increase: 2.0 },
-  { name: 'Households',  turnover: 22000, increase: 1.5 }
+  { name: 'Verduras',           turnover: 26000, increase: 3.2 },
+  { name: 'Comida instantánea', turnover: 22000, increase: 2.0 },
+  { name: 'Hogar',              turnover: 22000, increase: 1.5 }
 ]
 </script>
 
@@ -70,7 +81,7 @@ const categories = [
 .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e5e7eb}
 h2{font:600 16px/1.2 Inter,system-ui,sans-serif;margin:0}
-.ghost{border:1px solid #e5e7eb;background:#fff;border-radius:8px;padding:6px 10px;color:#374151;cursor:pointer}
+.ghost{border:1px solid #e5e7eb;background:#fff;border-radius:8px;padding:6px 10px;color:var(--muted, #5b6470);cursor:pointer}
 
 @media (max-width: 1100px){
   .analytics{grid-template-columns:1fr}

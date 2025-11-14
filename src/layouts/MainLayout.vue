@@ -1,36 +1,80 @@
 <script setup>
 import RsSidebar from '@/components/rs-sidebar.vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import { t, isEN, setLang } from '@/utils/i18n'
+
+const router = useRouter()
+const showUserMenu = ref(false)
+const menuRef = ref(null)
+const user = ref({ fullName: '', email: '' })
+
+function loadUser() {
+  try {
+    const raw = localStorage.getItem('user')
+    if (raw) {
+      const u = JSON.parse(raw)
+      user.value.fullName = u?.fullName || u?.name || ''
+      user.value.email = u?.email || ''
+    }
+  } catch (e) {}
+}
+
+function avatarLetter() {
+  return (user.value.fullName?.[0] || user.value.email?.[0] || 'U').toUpperCase()
+}
+
+function toggleUserMenu() { showUserMenu.value = !showUserMenu.value }
+function onLogout(){ localStorage.removeItem('user'); showUserMenu.value = false; router.push({ name: 'login' }) }
+function onDocumentClick(e){ if (menuRef.value && !menuRef.value.contains(e.target)) { showUserMenu.value = false } }
+
+onMounted(() => { loadUser(); document.addEventListener('click', onDocumentClick) })
+onBeforeUnmount(() => { document.removeEventListener('click', onDocumentClick) })
+
+function toggleLang(){ setLang(isEN.value ? 'es' : 'en') }
 </script>
 
 <template>
   <div class="logispe-page">
     <!-- TOP BAR -->
-    <pv-toolbar class="bg-top px-3" aria-label="Main toolbar">
-      <template #start>
-        <div class="flex align-items-center">
-          <div class="logo-circle mr-2" aria-hidden="true"></div>
-          <span class="brand">
-            <span class="brand-base">Logis</span><span class="brand-pe">Pe</span>
-          </span>
+    <header class="topbar" aria-label="Main toolbar">
+      <div class="topbar-start">
+        <div class="logo-circle" aria-hidden="true"></div>
+        <span class="brand"><span class="brand-base">Logis</span><span class="brand-pe">Pe</span></span>
+      </div>
+      <div class="topbar-center">
+        <div class="search-field">
+          <i class="pi pi-search" aria-hidden="true" style="margin-right:8px;color:#9ca3af"></i>
+          <input class="input" :placeholder="t('top.search')" :aria-label="t('top.search')" />
         </div>
-      </template>
-
-      <template #center>
-        <pv-icon-field class="search-field">
-          <pv-input-icon><i class="pi pi-search" /></pv-input-icon>
-          <pv-input-text
-            placeholder="Search product, supplier, order"
-            aria-label="Search product, supplier, order"
-            class="w-full"
-          />
-        </pv-icon-field>
-      </template>
-
-      <template #end>
-        <i class="pi pi-bell text-white mr-3" aria-label="Notifications"></i>
-        <pv-avatar icon="pi pi-user" shape="circle" size="large" aria-label="User menu" />
-      </template>
-    </pv-toolbar>
+      </div>
+      <div class="topbar-end">
+        <button class="lang-toggle" type="button" @click="toggleLang" :aria-label="isEN ? 'Switch to Spanish' : 'Cambiar a inglés'">{{ isEN ? 'EN' : 'ES' }}</button>
+        <i class="pi pi-bell" :aria-label="t('top.notifications')"></i>
+        <div class="user-menu" ref="menuRef">
+          <button class="avatar" type="button" :aria-label="t('top.userMenuAria')" @click="toggleUserMenu">
+            <span>{{ avatarLetter() }}</span>
+          </button>
+          <div v-if="showUserMenu" class="menu-panel" role="menu" :aria-label="t('top.userActionsAria')">
+            <div class="menu-header">
+              <div class="avatar small">{{ avatarLetter() }}</div>
+              <div class="user-meta">
+                <strong class="name">{{ user.fullName || user.email }}</strong>
+                <span class="email" v-if="user.fullName">{{ user.email }}</span>
+              </div>
+            </div>
+            <router-link class="menu-item" role="menuitem" :to="{ name: 'profile' }" @click="showUserMenu=false">
+              <i class="pi pi-user" aria-hidden="true"></i>
+              <span>{{ t('user.profile') }}</span>
+            </router-link>
+            <button class="menu-item" role="menuitem" type="button" @click="onLogout">
+              <i class="pi pi-sign-out" aria-hidden="true"></i>
+              <span>{{ t('user.logout') }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
 
     <!-- BODY -->
     <div class="logispe-body">
@@ -60,13 +104,18 @@ import RsSidebar from '@/components/rs-sidebar.vue'
 }
 
 /* Topbar */
-.bg-top{ background:#1f2a37; color:#fff; }
+.topbar{ display:grid; grid-template-columns:1fr 2fr 1fr; align-items:center; gap:1rem; padding:.75rem 1rem; background:var(--brand-dark); color:#fff; }
+.topbar-start{ display:flex; align-items:center; gap:.6rem }
 .logo-circle{ width:36px; height:36px; border-radius:50%; background:#2aa198; }
 .brand{ font-weight:700; font-size:1.3rem; letter-spacing:.2px; color:#e9ecef; }
 .brand-base{ color:#e9ecef; }
-.brand-pe{ color:#7adf7a; margin-left:1px; }
-.search-field{ width:32rem; max-width:46vw; }
-.search-field :deep(.p-inputtext){ background:#ffffff; }
+.brand-pe{ color:var(--brand-green); margin-left:1px; }
+.topbar-center{ display:flex; justify-content:center }
+.search-field{ display:flex; align-items:center; width:32rem; max-width:46vw; background:#ffffff; border-radius:10px; border:1px solid var(--border); padding:.35rem .6rem }
+.topbar-end{ display:flex; align-items:center; justify-content:flex-end; gap:.8rem }
+.topbar-end .pi{ color:#fff }
+.avatar{ width:36px; height:36px; border-radius:50%; background:#334155; display:grid; place-items:center }
+.lang-toggle{ border:1px solid #e5e7eb; background:#fff; color:#111827; border-radius:8px; padding:.3rem .5rem; font-weight:600; cursor:pointer }
 
 
 .logispe-page{ width:100%; }
@@ -76,10 +125,20 @@ import RsSidebar from '@/components/rs-sidebar.vue'
   display:grid;
   grid-template-columns:260px 1fr;
   min-height:calc(100vh - 64px);
-  background:#ffffff;
+  background:var(--surface);
 }
 .content-pane{
   padding:1.25rem;
-  background:#ffffff;
+  background:var(--surface);
 }
+/* User menu */
+.user-menu{ position:relative }
+.avatar{ color:#fff; border:0 }
+.avatar.small{ width:28px; height:28px; font-size:.8rem }
+.menu-panel{ position:absolute; right:0; top:calc(100% + 8px); width:240px; background:var(--surface, #fff); border:1px solid var(--border, #e6e8ec); border-radius:12px; box-shadow:var(--shadow, 0 8px 28px rgba(16,24,40,.12)); padding:.5rem; color:#111827 }
+.menu-header{ display:flex; align-items:center; gap:.6rem; padding:.4rem .5rem; border-bottom:1px solid var(--border, #e6e8ec); margin-bottom:.4rem }
+.user-meta .name{ display:block; color:#111827 }
+.user-meta .email{ display:block; color:var(--muted, #5b6470); font-size:.85rem }
+.menu-item{ display:flex; align-items:center; gap:.5rem; width:100%; padding:.55rem .6rem; background:transparent; border:0; color:#111827; border-radius:.5rem; text-decoration:none }
+.menu-item:hover{ background:#eef2f7 }
 </style>
