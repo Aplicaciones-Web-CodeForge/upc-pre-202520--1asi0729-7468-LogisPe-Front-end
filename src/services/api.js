@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'https://my-json-server.typicode.com/Aplicaciones-Web-CodeForge/db.json-LogisPe';
+const API_URL = 'https://my-json-server.typicode.com/Aplicaciones-Web-CodeForge/db.json-LogisPe';
 
 export async function loginUser(email, password) {
   const url = `${API_URL}/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
