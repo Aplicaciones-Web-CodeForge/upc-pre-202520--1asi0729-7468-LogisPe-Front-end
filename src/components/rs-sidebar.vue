@@ -2,10 +2,11 @@
 import { useRoute } from 'vue-router'
 import { t } from '@/utils/i18n'
 const route = useRoute()
+const props = defineProps({ open: { type: Boolean, default: false } })
 </script>
 
 <template>
-  <aside class="rs-sidebar" aria-label="Sidebar navigation">
+  <aside class="rs-sidebar" :class="{ open: props.open }" aria-label="Sidebar navigation">
     <ul class="menu">
       <router-link class="menu-item" :class="{ active: route.name==='home' }" :to="{ name: 'home' }">
         <i class="pi pi-home mr-2" aria-hidden="true"></i>
@@ -41,4 +42,9 @@ const route = useRoute()
 .menu-item.active { background: var(--brand-red); color:#fff }
 .as-link { background:transparent; border:0; color:inherit; font:inherit; display:flex; align-items:center }
 .grow { flex:1 1 auto }
+
+@media (max-width: 1024px){
+  .rs-sidebar{ position: fixed; top:64px; left:0; bottom:0; width:260px; transform: translateX(-100%); transition: transform .2s ease; z-index: 50 }
+  .rs-sidebar.open{ transform: translateX(0) }
+}
 </style>

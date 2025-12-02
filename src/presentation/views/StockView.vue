@@ -34,7 +34,7 @@ function onEdit(s){
 }
 
 async function onRemove(s){
-  if (!confirm(`${t('stock.confirmDelete')}: ${s.name}?`)) return
+  if (!confirm(`${t('stock.confirmDelete')}: ${s.productName}?`)) return
   try {
     await deleteStock(s.id)
     stocks.value = stocks.value.filter(x => x.id !== s.id)
@@ -130,4 +130,9 @@ async function onSubmit(){
 .table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left}
 .error{color:#c62828}
+
+@media (max-width: 640px){
+  .table{ display:block; overflow-x:auto }
+  th,td{ white-space: nowrap }
+}
 </style>

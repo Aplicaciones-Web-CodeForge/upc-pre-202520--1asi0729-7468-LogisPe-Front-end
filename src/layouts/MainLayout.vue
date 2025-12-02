@@ -6,6 +6,7 @@ import { t, isEN, setLang } from '@/utils/i18n'
 
 const router = useRouter()
 const showUserMenu = ref(false)
+const isSidebarOpen = ref(false)
 const menuRef = ref(null)
 const user = ref({ fullName: '', email: '' })
 
@@ -32,6 +33,8 @@ onMounted(() => { loadUser(); document.addEventListener('click', onDocumentClick
 onBeforeUnmount(() => { document.removeEventListener('click', onDocumentClick) })
 
 function toggleLang(){ setLang(isEN.value ? 'es' : 'en') }
+function toggleSidebar(){ isSidebarOpen.value = !isSidebarOpen.value }
+function closeSidebar(){ isSidebarOpen.value = false }
 </script>
 
 <template>
@@ -39,6 +42,9 @@ function toggleLang(){ setLang(isEN.value ? 'es' : 'en') }
     <!-- TOP BAR -->
     <header class="topbar" aria-label="Main toolbar">
       <div class="topbar-start">
+        <button class="hamburger" type="button" aria-label="Toggle sidebar" @click="toggleSidebar">
+          <span></span><span></span><span></span>
+        </button>
         <div class="logo-circle" aria-hidden="true"></div>
         <span class="brand"><span class="brand-base">Logis</span><span class="brand-pe">Pe</span></span>
       </div>
@@ -78,10 +84,11 @@ function toggleLang(){ setLang(isEN.value ? 'es' : 'en') }
 
     <!-- BODY -->
     <div class="logispe-body">
-      <rs-sidebar />
-      <div class="content-pane">
+      <rs-sidebar :open="isSidebarOpen" />
+      <div class="content-pane" @click="closeSidebar">
         <router-view />
       </div>
+      <div v-if="isSidebarOpen" class="overlay" @click="closeSidebar" />
     </div>
   </div>
   
@@ -106,6 +113,8 @@ function toggleLang(){ setLang(isEN.value ? 'es' : 'en') }
 /* Topbar */
 .topbar{ display:grid; grid-template-columns:1fr 2fr 1fr; align-items:center; gap:1rem; padding:.75rem 1rem; background:var(--brand-dark); color:#fff; }
 .topbar-start{ display:flex; align-items:center; gap:.6rem }
+.hamburger{ display:none; width:36px; height:36px; border-radius:8px; border:1px solid #e5e7eb; background:#fff; align-items:center; justify-content:center; gap:3px }
+.hamburger span{ display:block; width:18px; height:2px; background:#111827 }
 .logo-circle{ width:36px; height:36px; border-radius:50%; background:#2aa198; }
 .brand{ font-weight:700; font-size:1.3rem; letter-spacing:.2px; color:#e9ecef; }
 .brand-base{ color:#e9ecef; }
@@ -131,6 +140,7 @@ function toggleLang(){ setLang(isEN.value ? 'es' : 'en') }
   padding:1.25rem;
   background:var(--surface);
 }
+.overlay{ position:fixed; inset:64px 0 0 0; background:rgba(17,24,39,.35); backdrop-filter:saturate(120%) blur(2px) }
 /* User menu */
 .user-menu{ position:relative }
 .avatar{ color:#fff; border:0 }
@@ -141,4 +151,27 @@ function toggleLang(){ setLang(isEN.value ? 'es' : 'en') }
 .user-meta .email{ display:block; color:var(--muted, #5b6470); font-size:.85rem }
 .menu-item{ display:flex; align-items:center; gap:.5rem; width:100%; padding:.55rem .6rem; background:transparent; border:0; color:#111827; border-radius:.5rem; text-decoration:none }
 .menu-item:hover{ background:#eef2f7 }
+
+/* Utilidades globales de grid y breakpoints */
+:global(.grid){ display:grid; grid-template-columns:1fr; gap:12px }
+:global(.col-12){ grid-column:span 1 }
+:global(.text-right){ text-align:right }
+:global(.align-items-center){ align-items:center }
+@media (min-width: 768px){
+  :global(.grid){ grid-template-columns: repeat(12, 1fr) }
+  :global(.md\:col-1){ grid-column: span 1 }
+  :global(.md\:col-3){ grid-column: span 3 }
+  :global(.md\:col-4){ grid-column: span 4 }
+  :global(.md\:col-6){ grid-column: span 6 }
+  :global(.md\:col-8){ grid-column: span 8 }
+  :global(.md\:col-9){ grid-column: span 9 }
+}
+
+/* Responsivo */
+@media (max-width: 1024px){
+  .topbar{ grid-template-columns:1fr 1fr 1fr }
+  .search-field{ max-width:100%; width:auto }
+  .hamburger{ display:flex }
+  .logispe-body{ grid-template-columns: 0 1fr }
+}
 </style>

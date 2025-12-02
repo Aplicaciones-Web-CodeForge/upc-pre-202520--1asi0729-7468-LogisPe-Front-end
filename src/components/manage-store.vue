@@ -36,7 +36,7 @@ function onEdit(s){
 }
 
 async function onRemove(s){
-  if (!confirm(`${t('manage.confirmDeletePrefix')} ${s.branch}?`)) return
+  if (!confirm(`${t('manage.confirmDeletePrefix')} ${s.name}?`)) return
   try {
     await deleteStore(s.id)
     stores.value = stores.value.filter(x => x.id !== s.id)
@@ -89,18 +89,7 @@ onMounted(loadStores)
             <input v-model="form.address" :placeholder="t('manage.field.address')" />
           </label>
         </div>
-        <div class="col-12 md:col-6">
-          <label class="field">
-            <span>{{ t('manage.field.cityzip') }}</span>
-            <input v-model="form.cityzip" :placeholder="t('manage.field.cityzip')" />
-          </label>
-        </div>
-        <div class="col-12 md:col-3">
-          <label class="field">
-            <span>{{ t('manage.field.phone') }}</span>
-            <input v-model="form.phone" :placeholder="t('manage.field.phone')" />
-          </label>
-        </div>
+        
         <div class="col-12 md:col-3 text-right" style="display:flex;gap:8px;align-items:end;justify-content:flex-end">
           <button type="button" class="btn btn-primary" @click="onSubmit">{{ editingId ? t('manage.btn.update') : t('manage.btn.save') }}</button>
           <button type="button" class="btn" @click="showForm=false">{{ t('manage.btn.cancel') }}</button>
@@ -157,20 +146,12 @@ h2 { margin: 0; font-weight: 700; font-size: 1.35rem; color: #111827; }
   color: #111827;                   /* texto negro */
 }
 
-/* Bloque gris claro para el branch */
-.branch-box {
-  background: #eef2f6;              /* gris claro */
-  border-radius: 10px;
-  padding: 1.1rem 1rem;
-  min-height: 72px;
-  display: flex; align-items: center;
-}
-.branch-text { color: #111827; font-weight: 700; }
-
-/* Detalles en negro */
+/* Detalles */
 .detail .store-name { font-weight: 700; margin-bottom: .4rem; color: #111827; }
 .detail .line       { color: #111827; line-height: 1.35; }
 
-
-/* Eliminamos override global de color para permitir estilos de botones del theme */
+@media (max-width: 640px){
+  .head-row{ flex-direction: column; align-items: stretch; gap: .5rem }
+  .store-card{ padding: 1rem }
+}
 </style>

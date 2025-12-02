@@ -23,7 +23,7 @@ onMounted(async () => {
 
 function onAdd(){
   editingId.value = null
-  form.value = { name: '', contact: '', phone: '' }
+  form.value = { name: '', email: '', phone: '' }
   showForm.value = true
 }
 
@@ -55,7 +55,7 @@ async function onSubmit(){
     }
     showForm.value = false
     editingId.value = null
-    form.value = { name: '', contact: '', phone: '' }
+    form.value = { name: '', email: '', phone: '' }
   } catch(e){
     alert(e.message || t('suppliers.saveFailed'))
   }
@@ -130,4 +130,9 @@ async function onSubmit(){
 .table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left}
 .error{color:#c62828}
+
+@media (max-width: 640px){
+  .table{ display:block; overflow-x:auto }
+  th,td{ white-space: nowrap }
+}
 </style>
