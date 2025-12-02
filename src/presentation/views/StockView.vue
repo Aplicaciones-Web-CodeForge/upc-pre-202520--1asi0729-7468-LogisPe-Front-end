@@ -8,7 +8,7 @@ const loading = ref(false)
 const error = ref('')
 const showForm = ref(false)
 const editingId = ref(null)
-const form = ref({ name: '', quantity: 0, unit: '' })
+const form = ref({ productName: '', sku: '', quantity: 0, storeId: 1 })
 
 onMounted(async () => {
   loading.value = true
@@ -23,13 +23,13 @@ onMounted(async () => {
 
 function onAdd(){
   editingId.value = null
-  form.value = { name: '', quantity: 0, unit: '' }
+  form.value = { productName: '', sku: '', quantity: 0, storeId: 1 }
   showForm.value = true
 }
 
 function onEdit(s){
   editingId.value = s.id
-  form.value = { name: s.name, quantity: s.quantity, unit: s.unit }
+  form.value = { productName: s.productName, sku: s.sku, quantity: s.quantity, storeId: s.storeId || 1 }
   showForm.value = true
 }
 
@@ -44,7 +44,7 @@ async function onRemove(s){
 }
 
 async function onSubmit(){
-  const payload = { ...form.value }
+  const payload = { productName: form.value.productName, sku: form.value.sku, quantity: form.value.quantity, storeId: form.value.storeId || 1 }
   try {
     if (editingId.value){
       const updated = await updateStock(editingId.value, payload)
@@ -55,7 +55,7 @@ async function onSubmit(){
     }
     showForm.value = false
     editingId.value = null
-    form.value = { name: '', quantity: 0, unit: '' }
+    form.value = { productName: '', sku: '', quantity: 0, storeId: 1 }
   } catch(e){
     alert(e.message || t('stock.saveFailed'))
   }
@@ -75,7 +75,7 @@ async function onSubmit(){
           <div class="col-12 md:col-4">
             <label class="field">
               <span>{{ t('stock.field.product') }}</span>
-              <input v-model="form.name" :placeholder="t('stock.field.product')" />
+              <input v-model="form.productName" :placeholder="t('stock.field.product')" />
             </label>
           </div>
           <div class="col-12 md:col-4">
@@ -86,8 +86,8 @@ async function onSubmit(){
           </div>
           <div class="col-12 md:col-4">
             <label class="field">
-              <span>{{ t('stock.field.unit') }}</span>
-              <input v-model="form.unit" :placeholder="t('stock.field.unit')" />
+              <span>SKU</span>
+              <input v-model="form.sku" placeholder="SKU" />
             </label>
           </div>
           <div class="col-12" style="display:flex;gap:8px;justify-content:flex-end">
@@ -101,7 +101,7 @@ async function onSubmit(){
           <tr>
             <th>{{ t('stock.col.product') }}</th>
             <th>{{ t('stock.col.quantity') }}</th>
-            <th>{{ t('stock.col.unit') }}</th>
+            <th>SKU</th>
             <th></th>
           </tr>
         </thead>
@@ -109,9 +109,9 @@ async function onSubmit(){
           <tr v-if="loading"><td colspan="3">{{ t('stock.loading') }}</td></tr>
           <tr v-else-if="error"><td colspan="3" class="error">{{ error || t('stock.error') }}</td></tr>
           <tr v-else v-for="s in stocks" :key="s.id">
-            <td>{{ s.name }}</td>
+            <td>{{ s.productName }}</td>
             <td>{{ s.quantity }}</td>
-            <td>{{ s.unit }}</td>
+            <td>{{ s.sku }}</td>
             <td style="text-align:right">
               <button class="btn btn-outline" @click="onEdit(s)">{{ t('stock.btn.edit') }}</button>
               <button class="btn btn-danger" @click="onRemove(s)">{{ t('stock.btn.delete') }}</button>

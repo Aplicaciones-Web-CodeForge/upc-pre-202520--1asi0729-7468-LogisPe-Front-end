@@ -1,14 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getOrders, createOrder, updateOrder, deleteOrder } from '@/services/api'
-import { t, fmtMoney } from '@/utils/i18n'
+import { t } from '@/utils/i18n'
 
 const orders = ref([])
 const loading = ref(false)
 const error = ref('')
 const showForm = ref(false)
 const editingId = ref(null)
-const form = ref({ customer: '', status: '', total: 0 })
+const form = ref({ orderNumber: '', status: '', supplierId: 1, storeId: 1, sku: '', quantity: 1 })
 
 onMounted(async () => {
   loading.value = true
@@ -23,13 +23,14 @@ onMounted(async () => {
 
 function onAdd(){
   editingId.value = null
-  form.value = { customer: '', status: '', total: 0 }
+  form.value = { orderNumber: '', status: '', supplierId: 1, storeId: 1, sku: '', quantity: 1 }
   showForm.value = true
 }
 
 function onEdit(o){
   editingId.value = o.id
-  form.value = { customer: o.customer, status: o.status, total: o.total }
+  const firstItem = (o.items && o.items[0]) || { sku: '', quantity: 1 }
+  form.value = { orderNumber: o.orderNumber || '', status: o.status || '', supplierId: o.supplierId || 1, storeId: o.storeId || 1, sku: firstItem.sku || '', quantity: firstItem.quantity || 1 }
   showForm.value = true
 }
 
@@ -44,7 +45,7 @@ async function onRemove(o){
 }
 
 async function onSubmit(){
-  const payload = { ...form.value }
+  const payload = { orderNumber: form.value.orderNumber, status: form.value.status, supplierId: form.value.supplierId, storeId: form.value.storeId, items: [{ sku: form.value.sku, quantity: form.value.quantity }] }
   try {
     if (editingId.value){
       const updated = await updateOrder(editingId.value, payload)
@@ -55,7 +56,7 @@ async function onSubmit(){
     }
     showForm.value = false
     editingId.value = null
-    form.value = { customer: '', status: '', total: 0 }
+    form.value = { orderNumber: '', status: '', supplierId: 1, storeId: 1, sku: '', quantity: 1 }
   } catch(e){
     alert(e.message || t('orders.saveFailed'))
   }
@@ -74,8 +75,8 @@ async function onSubmit(){
         <div class="grid">
           <div class="col-12 md:col-4">
             <label class="field">
-              <span>{{ t('orders.field.customer') }}</span>
-              <input v-model="form.customer" :placeholder="t('orders.field.customer')" />
+              <span>#</span>
+              <input v-model="form.orderNumber" placeholder="#" />
             </label>
           </div>
           <div class="col-12 md:col-4">
@@ -86,8 +87,14 @@ async function onSubmit(){
           </div>
           <div class="col-12 md:col-4">
             <label class="field">
-              <span>{{ t('orders.field.total') }}</span>
-              <input type="number" step="0.01" v-model.number="form.total" :placeholder="t('orders.field.total')" />
+              <span>SKU</span>
+              <input v-model="form.sku" placeholder="SKU" />
+            </label>
+          </div>
+          <div class="col-12 md:col-4">
+            <label class="field">
+              <span>{{ t('stock.field.quantity') }}</span>
+              <input type="number" min="1" v-model.number="form.quantity" :placeholder="t('stock.field.quantity')" />
             </label>
           </div>
           <div class="col-12" style="display:flex;gap:8px;justify-content:flex-end">
@@ -100,9 +107,9 @@ async function onSubmit(){
         <thead>
           <tr>
             <th>{{ t('orders.col.id') }}</th>
-            <th>{{ t('orders.col.customer') }}</th>
+            <th>#</th>
             <th>{{ t('orders.col.status') }}</th>
-            <th>{{ t('orders.col.total') }}</th>
+            <th>Items</th>
             <th></th>
           </tr>
         </thead>
@@ -111,9 +118,9 @@ async function onSubmit(){
           <tr v-else-if="error"><td colspan="4" class="error">{{ error || t('orders.error') }}</td></tr>
           <tr v-else v-for="o in orders" :key="o.id">
             <td>#{{ o.id }}</td>
-            <td>{{ o.customer }}</td>
+            <td>{{ o.orderNumber }}</td>
             <td>{{ o.status }}</td>
-            <td>{{ fmtMoney(o.total, { fractionDigits: 2 }) }}</td>
+            <td>{{ (o.items || []).reduce((a,i)=>a + (i.quantity || 0), 0) }}</td>
             <td style="text-align:right">
               <button class="btn btn-outline" @click="onEdit(o)">{{ t('orders.btn.edit') }}</button>
               <button class="btn btn-danger" @click="onRemove(o)">{{ t('orders.btn.delete') }}</button>

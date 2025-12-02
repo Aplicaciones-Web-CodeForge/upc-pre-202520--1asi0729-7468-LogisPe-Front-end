@@ -8,7 +8,7 @@ const loading = ref(false)
 const error = ref('')
 const showForm = ref(false)
 const editingId = ref(null)
-const form = ref({ name: '', contact: '', phone: '' })
+const form = ref({ name: '', email: '', phone: '' })
 
 onMounted(async () => {
   loading.value = true
@@ -29,7 +29,7 @@ function onAdd(){
 
 function onEdit(s){
   editingId.value = s.id
-  form.value = { name: s.name, contact: s.contact, phone: s.phone }
+  form.value = { name: s.name, email: s.email, phone: s.phone }
   showForm.value = true
 }
 
@@ -81,7 +81,7 @@ async function onSubmit(){
           <div class="col-12 md:col-4">
             <label class="field">
               <span>{{ t('suppliers.field.contact') }}</span>
-              <input v-model="form.contact" :placeholder="t('suppliers.field.contact')" />
+              <input v-model="form.email" :placeholder="t('suppliers.field.contact')" />
             </label>
           </div>
           <div class="col-12 md:col-4">
@@ -110,7 +110,7 @@ async function onSubmit(){
           <tr v-else-if="error"><td colspan="3" class="error">{{ error || t('suppliers.error') }}</td></tr>
           <tr v-else v-for="s in suppliers" :key="s.id">
             <td>{{ s.name }}</td>
-            <td>{{ s.contact }}</td>
+            <td>{{ s.email }}</td>
             <td>{{ s.phone }}</td>
             <td style="text-align:right">
               <button class="btn btn-outline" @click="onEdit(s)">{{ t('suppliers.btn.edit') }}</button>

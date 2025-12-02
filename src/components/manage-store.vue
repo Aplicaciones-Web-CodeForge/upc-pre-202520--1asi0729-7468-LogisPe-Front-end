@@ -9,7 +9,7 @@ const error = ref('')
 
 const showForm = ref(false)
 const editingId = ref(null)
-const form = ref({ branch: '', store: '', address1: '', cityzip: '', phone: '' })
+const form = ref({ name: '', address: '' })
 
 async function loadStores(){
   loading.value = true
@@ -25,13 +25,13 @@ async function loadStores(){
 
 function onAdd(){
   editingId.value = null
-  form.value = { branch: '', store: '', address1: '', cityzip: '', phone: '' }
+  form.value = { name: '', address: '' }
   showForm.value = true
 }
 
 function onEdit(s){
   editingId.value = s.id
-  form.value = { branch: s.branch, store: s.store, address1: s.address1, cityzip: s.cityzip, phone: s.phone }
+  form.value = { name: s.name, address: s.address }
   showForm.value = true
 }
 
@@ -57,7 +57,7 @@ async function onSubmit(){
     }
     showForm.value = false
     editingId.value = null
-    form.value = { branch: '', store: '', address1: '', cityzip: '', phone: '' }
+    form.value = { name: '', address: '' }
   } catch(e){
     alert(e.message || t('manage.saveFailed'))
   }
@@ -77,22 +77,16 @@ onMounted(loadStores)
     <!-- Form -->
     <div v-if="showForm" class="store-card" style="margin-bottom:16px">
       <div class="grid">
-        <div class="col-12 md:col-3">
-          <label class="field">
-            <span>{{ t('manage.field.branch') }}</span>
-            <input v-model="form.branch" :placeholder="t('manage.field.branch')" />
-          </label>
-        </div>
-        <div class="col-12 md:col-3">
+        <div class="col-12 md:col-6">
           <label class="field">
             <span>{{ t('manage.field.store') }}</span>
-            <input v-model="form.store" :placeholder="t('manage.field.store')" />
+            <input v-model="form.name" :placeholder="t('manage.field.store')" />
           </label>
         </div>
         <div class="col-12 md:col-6">
           <label class="field">
             <span>{{ t('manage.field.address') }}</span>
-            <input v-model="form.address1" :placeholder="t('manage.field.address')" />
+            <input v-model="form.address" :placeholder="t('manage.field.address')" />
           </label>
         </div>
         <div class="col-12 md:col-6">
@@ -121,20 +115,10 @@ onMounted(loadStores)
       <div v-else v-for="(c, i) in stores" :key="c.id" class="col-12">
         <div class="store-card">
           <div class="grid align-items-center">
-            <!-- Bloque branch -->
-            <div class="col-12 md:col-3">
-              <div class="branch-box">
-                <span class="branch-text">{{ c.branch }}</span>
-              </div>
-            </div>
-
-            <!-- Detalle -->
-            <div class="col-12 md:col-8">
+            <div class="col-12 md:col-9">
               <div class="detail">
-                <div class="store-name">{{ c.store }}</div>
-                <div class="line">{{ c.address1 }}</div>
-                <div class="line">{{ c.cityzip }}</div>
-                <div class="line">{{ c.phone }}</div>
+                <div class="store-name">{{ c.name }}</div>
+                <div class="line">{{ c.address }}</div>
               </div>
             </div>
 

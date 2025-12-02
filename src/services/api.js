@@ -1,11 +1,25 @@
-const API_URL = 'https://my-json-server.typicode.com/Aplicaciones-Web-CodeForge/db.json-LogisPe';
+// Read base URL from Vite environment variable. Vite exposes env vars prefixed with VITE_.
+// Default to the deployed Railway backend if the env var is not set.
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'https://upc-pre-202520-1asi0730-7468-logispe-back-end-production.up.railway.app';
 
 export async function loginUser(email, password) {
-  const url = `${API_URL}/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error('Error de conexión');
-  const data = await res.json();
-  return data?.[0] || null;
+  try {
+    const res = await fetch(`${API_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    })
+    if (res.status === 401) return null
+    if (!res.ok) throw new Error('Error de conexión')
+    const data = await res.json()
+    return data?.user || null
+  } catch (e) {
+    const url = `${API_URL}/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+    const res = await fetch(url)
+    if (!res.ok) throw new Error('Error de conexión')
+    const data = await res.json()
+    return data?.[0] || null
+  }
 }
 
 export async function registerUser(user) {
@@ -32,10 +46,22 @@ export async function getUserById(id) {
 }
 
 export async function updateUser(id, userPartial) {
+  const currentRes = await fetch(`${API_URL}/users/${id}`)
+  if (!currentRes.ok) throw new Error('No se pudo obtener el usuario')
+  const current = await currentRes.json()
+
+  const payload = {
+    id: id,
+    name: userPartial.fullName || userPartial.name || current.name || '',
+    email: userPartial.email ?? current.email ?? '',
+    password: current.password ?? '',
+    role: current.role ?? 'user'
+  }
+
   const res = await fetch(`${API_URL}/users/${id}`, {
-    method: 'PATCH',
+    method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(userPartial)
+    body: JSON.stringify(payload)
   })
   if (!res.ok) throw new Error('No se pudo actualizar el usuario')
   return res.json()
