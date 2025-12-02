@@ -1,5 +1,4 @@
-// Read base URL from Vite environment variable. Vite exposes env vars prefixed with VITE_.
-// Default to the deployed Railway backend if the env var is not set.
+
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'https://upc-pre-202520-1asi0730-7468-logispe-back-end-production.up.railway.app';
 
 export async function loginUser(email, password) {
